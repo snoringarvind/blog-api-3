@@ -18,7 +18,6 @@ exports.signup_post = [
     const errors = validationResult(req);
 
     const user = new User({
-      admin: req.body.admin,
       fname: req.body.fname,
       lname: req.body.lname,
       email: req.body.email,
@@ -31,7 +30,7 @@ exports.signup_post = [
     } else {
       user.save((err) => {
         if (err) {
-          return res.json(err);
+          return res.json({ msg: err });
         } else {
           return res.redirect("/blogs");
         }
