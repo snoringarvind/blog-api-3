@@ -6,6 +6,10 @@ const BlogSchema = mongoose.Schema({
   content: { type: String, required: true },
 });
 
+BlogSchema.virtual("url").get(function () {
+  return "/blog/" + this.id;
+});
+
 const BlogModel = connection.model("Blog", BlogSchema);
 
 module.exports = BlogModel;

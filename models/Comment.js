@@ -3,7 +3,11 @@ const connection = require("../config/database");
 
 const CommentSchema = mongoose.Schema({
   comment: { type: String, required: true },
-  commenter: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 const CommentModel = connection.model("Comment", CommentSchema);

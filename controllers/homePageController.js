@@ -1,4 +1,11 @@
+const Blog = require("../models/Blog");
+
 exports.blog_list = (req, res, next) => {
-  console.log(req.cookies);
-  res.json({ msg: "not implemented" });
+  Blog.find({}, (err, result) => {
+    if (err) return res.status(500).json({ msg: "Some error" });
+    if (result.length == 0) return res.status(200).json({ msg: "no blogs" });
+    else {
+      return res.status(200).json(result);
+    }
+  });
 };
