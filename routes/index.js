@@ -3,7 +3,7 @@ const router = express.Router();
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-  res.redirect("/blogs");
+  res.redirect("/api/blogs");
 });
 
 module.exports = router;

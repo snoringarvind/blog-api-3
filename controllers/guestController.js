@@ -2,6 +2,7 @@ const User = require("../models/User");
 const { body, validationResult } = require("express-validator");
 const Blog = require("../models/Blog");
 const Comment = require("../models/Comment");
+const utils = require("../libs/utils");
 
 //having signup in guest, since the client One is already set
 exports.signup_get = (req, res, next) => {
@@ -21,6 +22,9 @@ exports.signup_post = [
     .trim()
     .isLength({ min: 1 })
     .escape(),
+
+  utils.hashPassword,
+
   (req, res, next) => {
     const errors = validationResult(req);
 
@@ -29,7 +33,7 @@ exports.signup_post = [
       lname: req.body.lname,
       email: req.body.email,
       username: req.body.username,
-      password: req.body.password,
+      password: res.locals.storeHash,
     });
 
     if (!errors.isEmpty()) {
@@ -71,6 +75,52 @@ exports.comment_create_post = [
         if (err) return res.json(err);
         return res.json(comment);
       });
+    }
+  },
+];
+
+exports.isVerified = (req, res, next) => {
+  if (res.locals.isAuthenticated) {
+    res.status(200).json({ success: true });
+  }
+};
+
+exports.login_post = [
+  body("username", "username cannot be empty")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("password", "password cannot be empty")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    // console.log("errors", errors);
+    if (!errors.isEmpty()) {
+      return res.status(401).json(errors.array());
+    } else {
+      User.findOne({ username: req.body.username }, (err, result) => {
+        if (err) return res.status(500).json(err);
+        if (result == null) {
+          return res
+            .status(401)
+            .json({ msg: "no such user with that username" });
+        } else {
+          res.locals.plainPassword = req.body.password;
+          res.locals.user = result;
+          next();
+        }
+      });
+    }
+  },
+  utils.comparePassword,
+  (req, res, next) => {
+    if (!res.locals.isPassTrue) {
+      return res.status(401).json({ msg: "wrong password" });
+    } else {
+      const jwtResponse = utils.issueJWT(res.locals.user);
+      return res.status(200).json({ jwt: jwtResponse });
     }
   },
 ];

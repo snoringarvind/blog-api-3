@@ -16,33 +16,3 @@ exports.protected_route = [
     }
   },
 ];
-
-exports.login_post = [
-  body("username", "username cannot be empty")
-    .trim()
-    .isLength({ min: 1 })
-    .escape(),
-  body("password", "password cannot be empty")
-    .trim()
-    .isLength({ min: 1 })
-    .escape(),
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.json(errors);
-    } else {
-      User.findOne({ username: req.body.username }, (err, result) => {
-        if (err) return res.json({ msg: err });
-        if (result == null) {
-          return res.json({ msg: "no such user with that username" });
-        }
-        if (result.password != req.body.password) {
-          return res.json({ msg: "wrong password" });
-        } else {
-          const JWTresponse = utils.issueJWT(result);
-          return res.json(JWTresponse);
-        }
-      });
-    }
-  },
-];
