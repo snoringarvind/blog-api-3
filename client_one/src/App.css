@@ -2,17 +2,20 @@
   box-sizing: border-box;
 }
 
+.LoadingOverlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  color: lightgray;
+}
+
 form {
   border: 1px solid rgb(119, 119, 119);
   padding: 20px;
   border-radius: 5px;
   margin: 10px;
-  left: 50%;
-  position: fixed;
-  top: 35%;
-  width: 90%;
-  /* height: 100vh; */
-  transform: translate(-50%, -35%);
 }
 
 label {
@@ -22,7 +25,8 @@ label {
   margin-bottom: 3px;
 }
 
-input {
+input,
+textarea {
   display: block;
   border: 1px solid blue;
   width: 100%;
@@ -32,6 +36,10 @@ input {
   margin-bottom: 20px;
 }
 
+textarea {
+  height: 30vh;
+  resize: vertical;
+}
 .form-group {
   border: 1px solid lightgray;
   margin-bottom: 10px;
@@ -60,4 +68,50 @@ input {
   color: white;
   text-align: start;
   padding: 10px 10px 10px 30px;
+}
+
+.card {
+  border: 1px solid rgb(212, 212, 212);
+  border-radius: 4px;
+  margin: 20px 10px;
+  padding: 20px;
+  text-decoration: none;
+}
+
+.Link {
+  text-decoration: none;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 450;
+  color: blue;
+}
+
+.card-content {
+  border: 1px solid rgb(235, 235, 235);
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-align: justify;
+  text-decoration: none;
+  color: rgb(58, 58, 58);
+}
+
+.Nav {
+  display: flex;
+  justify-content: space-around;
+  background-color: lightgray;
+  padding: 10px;
+}
+
+.logout {
+  cursor: pointer;
+}
+
+.nav-links {
+  padding: 10px 10px;
+  background-color: blue;
+  border-radius: 4px;
+  text-decoration: none;
+  color: white;
 }

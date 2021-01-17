@@ -20,13 +20,13 @@ exports.blog_create_post = [
 
     if (!errors.isEmpty()) {
       console.log(errors.array());
-      res.status(404).json({ errors: errors.array(), blog });
+      res.status(400).json(errors.array());
     } else {
       blog.save((err) => {
         console.log(blog.url);
         if (err) return res.status(500).json(err);
         console.log("blog_url", blog.url);
-        res.json(blog);
+        res.status(200).json(blog);
       });
     }
   },
@@ -112,6 +112,7 @@ exports.login_post = [
       });
     }
   },
+
   utils.comparePassword,
   (req, res, next) => {
     if (!res.locals.isPassTrue) {
@@ -126,6 +127,6 @@ exports.login_post = [
 exports.isVerified = (req, res, next) => {
   if (res.locals.isAuthenticated) {
     // console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiii");
-    return res.status(200).json({ isAuthenticated: true });
+    return res.status(200).json({ msg: { isAuthenticated: true } });
   }
 };

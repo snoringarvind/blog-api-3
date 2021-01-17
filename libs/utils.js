@@ -24,7 +24,7 @@ exports.issueJWT = (user) => {
 
 exports.verifyJWT = (req, res, next) => {
   try {
-    // console.log(req.headers);
+    console.log(req.headers);
     // console.log("headers12", req.headers.authorization);
     const bearerToken = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verify(bearerToken, process.env.SECRET);
@@ -35,7 +35,7 @@ exports.verifyJWT = (req, res, next) => {
   } catch (err) {
     // console.log("failed");
     res.locals.isAuthenticated = false;
-    return res.status(403).json({ isAuthenticated: false, err });
+    return res.status(403).json({ isAuthenticated: false, msg: err.message });
   }
 };
 
@@ -46,7 +46,7 @@ exports.verifyAdmin = (req, res, next) => {
     return next();
   } else {
     // console.log("failed");
-    return res.status(403).json({ isAuthenticated: false });
+    return res.status(403).json({ data: { msg: { isAuthenticated: false } } });
   }
 };
 

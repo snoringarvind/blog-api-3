@@ -23,11 +23,12 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/blogs/login",
+        "http://localhost:3000/api/blogs/admin-login",
         state
       );
-      const JWTdata = JSON.stringify(response.data);
-      localStorage.setItem("JWTdata", JWTdata);
+      const jwtData = JSON.stringify(response.data);
+      localStorage.setItem("jwtData", jwtData);
+      // setIsAuth(true);
       setLoading(false);
       setErrors([]);
     } catch (err) {
