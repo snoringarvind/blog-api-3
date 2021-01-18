@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import uniqid from "uniqid";
-import BlogDetail from "./BlogDetail";
 import { Redirect } from "react-router-dom";
+import Login from "./Login";
 
 const BlogCreate = () => {
   const [state, setState] = useState({ title: "", content: "" });
@@ -12,7 +12,6 @@ const BlogCreate = () => {
   const [BlogCreate, setBlogCreate] = useState("");
 
   const axios_blogCreate = async () => {
-    // console.log(state);
     const jwtData = JSON.parse(localStorage.getItem("jwtData"));
 
     if (jwtData) {
@@ -26,21 +25,19 @@ const BlogCreate = () => {
           { headers: headers }
         );
         setLoading(false);
-        console.log(response);
         setBlogCreate(response);
-        console.log(BlogCreate);
         setErrors([]);
         setIsSubmit(true);
       } catch (err) {
         setLoading(false);
-        console.log(err.response.data);
         setErrors(err.response.data);
       }
+    } else {
+      return <Login />;
     }
   };
 
   const displayError = () => {
-    // console.log(errors);
     let arr = [];
 
     if (!Array.isArray(errors)) {
@@ -58,7 +55,6 @@ const BlogCreate = () => {
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
-    // console.log(state);
     setState({ ...state, [name]: value });
   };
 

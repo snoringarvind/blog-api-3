@@ -13,13 +13,11 @@ const BlogDetail = ({ props }) => {
   }, []);
 
   const axios_blogDetail = async () => {
-    console.log("memememme");
     const response = await axios.get(
       `http://localhost:3000/api/blog/${props.match.params.id}`
     );
     setLoading(false);
     setBlogDetail(response.data);
-    console.log(blogDetail);
   };
 
   return (

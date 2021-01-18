@@ -1,23 +1,17 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import uniqid from "uniqid";
-import LoadingOverlay from "./LoadingOverlay";
 
 const Login = () => {
   const [state, setState] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
-    // console.log(state);
   };
-
-  useEffect(() => {
-    <LoadingOverlay />;
-  }, [!loading]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -28,10 +22,10 @@ const Login = () => {
       );
       const jwtData = JSON.stringify(response.data);
       localStorage.setItem("jwtData", jwtData);
-      // setIsAuth(true);
-      setLoading(false);
+      setLoading(true);
       setErrors([]);
     } catch (err) {
+      setLoading(false);
       setErrors(err.response.data);
     }
   };
@@ -78,7 +72,7 @@ const Login = () => {
         </div>
         <div className="errors">{displayError()}</div>
         <button className="submit-btn" type="submit" onClick={submitHandler}>
-          Login
+          {loading ? "Loging-in" : "Login"}
         </button>
       </form>
     </div>

@@ -1,0 +1,36 @@
+ const [errors, setErrors] = useState([]);
+  const [isAuth, setIsAuth] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios_isLogin();
+  }, [isAuth]);
+
+  const axios_isLogin = async () => {
+    const jwtData = await JSON.parse(localStorage.getItem("jwtData"));
+    console.log(jwtData);
+
+    if (jwtData) {
+      const headers = { authorization: `Bearer ${jwtData.jwt.token}` };
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/blogs/admin-isverified",
+          { data: null },
+          { headers: headers }
+        );
+        setIsAuth(true);
+        setErrors([]);
+        setLoading(false);
+        // console.log(isAuth);
+      } catch (err) {
+        console.log(isAuth);
+        setErrors(err.response.data);
+        setIsAuth(false);
+        console.log();
+      }
+    } else {
+      setIsAuth(false);
+    }
+  };
+
+  console.log("jdjjsdjsd=", isAuth);
