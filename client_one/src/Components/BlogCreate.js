@@ -3,96 +3,59 @@ import axios from "axios";
 import uniqid from "uniqid";
 import { Redirect } from "react-router-dom";
 import Login from "./Login";
+import BlogForm from "./BlogForm";
 
-const BlogCreate = () => {
+const BlogCreate = ({ routeInfo }) => {
+  console.log(routeInfo);
   const [state, setState] = useState({ title: "", content: "" });
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [isSubmit, setIsSubmit] = useState(false);
   const [BlogCreate, setBlogCreate] = useState("");
+  const [isAuth, setIsAuth] = useState(null);
 
   const axios_blogCreate = async () => {
     const jwtData = JSON.parse(localStorage.getItem("jwtData"));
+    console.log(jwtData);
 
     if (jwtData) {
       const headers = {
         authorization: `Bearer ${jwtData.jwt.token}`,
       };
       try {
-        const response = await axios.post(
-          "http://localhost:3000/api/blogs",
-          state,
-          { headers: headers }
-        );
+        const response = await axios({
+          method: routeInfo.method,
+          url: routeInfo.url,
+          data: state,
+          headers: headers,
+        });
         setLoading(false);
         setBlogCreate(response);
         setErrors([]);
-        setIsSubmit(true);
+        setIsAuth(true);
       } catch (err) {
         setLoading(false);
+        setIsAuth(false);
         setErrors(err.response.data);
       }
     } else {
-      return <Login />;
+      setLoading(false);
+      setIsAuth(false);
     }
   };
 
-  const displayError = () => {
-    let arr = [];
-
-    if (!Array.isArray(errors)) {
-      setErrors([errors]);
-    }
-    if (errors.length !== 0) {
-      for (let i = 0; i < errors.length; i++) {
-        arr.push(<li key={uniqid()}>{errors[i].msg}</li>);
-      }
-      return <ul>{arr}</ul>;
-    } else {
-      return null;
-    }
-  };
-
-  const changeHandler = (e) => {
-    const { name, value } = e.target;
-    setState({ ...state, [name]: value });
-  };
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    axios_blogCreate();
-  };
   return (
     <div className="BlogCreate">
-      <form>
-        <div className="form-group">
-          <label htmlFor="title">Title:</label>
-          <input
-            type="text"
-            placeholder="Enter title"
-            id="title"
-            name="title"
-            value={state.title}
-            onChange={(e) => changeHandler(e)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="content">Content:</label>
-          <textarea
-            id="content"
-            placeholder="Enter content"
-            name="content"
-            onChange={(e) => changeHandler(e)}
-            value={state.content}
-          />
-        </div>
-        <div className="error">{displayError()}</div>
-        <button className="submit-btn" type="submit" onClick={submitHandler}>
-          {loading ? "Submitting" : "Create Blog"}
-        </button>
-      </form>
-      {isSubmit && <Redirect to={`/api/blog/${BlogCreate.data._id}`} />}
+      <BlogForm
+        state={state}
+        setState={setState}
+        loading={loading}
+        setLoading={setLoading}
+        errors={errors}
+        setErrors={setErrors}
+        props={{ axios_blogCreate: axios_blogCreate }}
+        isAuth={isAuth}
+        BlogCreate={BlogCreate}
+      />
     </div>
   );
 };

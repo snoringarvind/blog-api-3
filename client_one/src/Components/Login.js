@@ -15,6 +15,7 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(
         "http://localhost:3000/api/blogs/admin-login",
@@ -22,7 +23,7 @@ const Login = () => {
       );
       const jwtData = JSON.stringify(response.data);
       localStorage.setItem("jwtData", jwtData);
-      setLoading(true);
+      setLoading(false);
       setErrors([]);
     } catch (err) {
       setLoading(false);
