@@ -17,7 +17,6 @@ const BlogCommentForm = ({ props }) => {
   };
 
   const submitHandler = () => {
-    // e.preventDefault();
     cb.post_comment(props);
   };
 

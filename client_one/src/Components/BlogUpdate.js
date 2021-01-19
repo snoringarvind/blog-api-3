@@ -8,6 +8,8 @@ const BlogUpdate = ({ props }) => {
   const [state, setState] = stateValue;
   const [errors, setErrors] = errorsValue;
 
+  console.log("jiiiiiiiiiiiiiiiiiiiiiiii");
+
   const [loadUpdateForm, setLoadUpdateForm] = useState(true);
 
   const url = `http://localhost:3000/api/blog/${props.match.params.id}`;
