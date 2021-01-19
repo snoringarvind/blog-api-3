@@ -34,7 +34,7 @@ const Home = () => {
     }
     return arr;
   };
-  console.log(blogList);
+  // console.log(blogList);
   return (
     <div className="Home">
       {loading && <LoadingOverlay />}

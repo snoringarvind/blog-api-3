@@ -46,7 +46,10 @@ textarea {
   padding: 20px;
 }
 
-.submit-btn {
+.submit-btn,
+.delete-btn,
+.cancel-btn,
+.update-btn {
   font-size: 1.3rem;
   padding: 8px 15px;
   color: white;
@@ -55,6 +58,16 @@ textarea {
   border-radius: 3px;
   outline: 1px solid lightgray;
   cursor: pointer;
+}
+
+.update-btn,
+.delete-btn,
+.cancel-btn {
+  margin: 15px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  padding: 6px 10px;
 }
 
 .errors {
@@ -114,4 +127,33 @@ textarea {
   border-radius: 4px;
   text-decoration: none;
   color: white;
+}
+
+.comments {
+  border: 1px solid rgb(235, 235, 235);
+  margin: 20px;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.comment-detail {
+  border: 1px solid rgb(235, 235, 235);
+  margin-bottom: 20px;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.comment-detail-user {
+  font-weight: bold;
+  color: rgb(40, 40, 40);
+}
+
+.comment-detail-comment {
+  color: rgb(60, 60, 60);
+}
+
+.loading-comments {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
 }

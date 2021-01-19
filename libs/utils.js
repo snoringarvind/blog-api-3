@@ -19,12 +19,13 @@ exports.issueJWT = (user) => {
   // console.log("user", user);
 
   const token = jwt.sign(payload, process.env.SECRET, options);
+  console.log("token=", token);
   return { token, iat: payload.iat, expiresIn: options.expiresIn };
 };
 
 exports.verifyJWT = (req, res, next) => {
   try {
-    console.log(req.headers);
+    // console.log(req.headers);
     // console.log("headers12", req.headers.authorization);
     const bearerToken = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verify(bearerToken, process.env.SECRET);

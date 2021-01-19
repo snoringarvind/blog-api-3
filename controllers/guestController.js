@@ -29,6 +29,7 @@ exports.signup_post = [
     const errors = validationResult(req);
 
     const user = new User({
+      admin: true,
       fname: req.body.fname,
       lname: req.body.lname,
       email: req.body.email,
@@ -51,7 +52,7 @@ exports.signup_post = [
 ];
 
 exports.blog_detail_get = (req, res, next) => {
-  Blog.findById(req.params.id, (err, result) => {
+  Blog.findById(req.params.id).exec((err, result) => {
     if (err) return res.json(err);
     if (result == null) return res.status(401).json({ msg: "no blog found" });
     else {
@@ -60,16 +61,33 @@ exports.blog_detail_get = (req, res, next) => {
   });
 };
 
+exports.comment_get = (req, res, next) => {
+  Comment.find({ blog: req.params.id })
+    .populate("user")
+    .exec((err, result) => {
+      if (err) return res.status(500).json(err);
+      return res.status(200).json(result);
+    });
+};
+
 exports.comment_create_post = [
-  body("comment").trim().isLength({ min: 1 }).escape(),
+  body("comment", "comment cannot be empty")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("user").trim().escape(),
   (req, res, next) => {
+    console.log("user=", res.locals.user.sub);
     const errors = validationResult(req);
     const comment = new Comment({
       comment: req.body.comment,
       user: res.locals.user.sub,
+      blog: req.params.id,
     });
+    console.log(("comment=", comment));
+    console.log(errors.array());
     if (!errors.isEmpty()) {
-      res.json(errors);
+      res.status(400).json(errors.array());
     } else {
       comment.save((err) => {
         if (err) return res.json(err);

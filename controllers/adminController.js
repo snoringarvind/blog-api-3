@@ -33,11 +33,11 @@ exports.blog_create_post = [
 ];
 
 exports.blog_create_get = (req, res, next) => {
-  res.json({ msg: "not implemented" });
+  res.status(200).json({ msg: "not implemented" });
 };
 
 exports.blog_update_get = (req, res, next) => {
-  res.json({ msg: "not implemented" });
+  res.status(200).json({ msg: "not implemented" });
 };
 
 exports.blog_update_put = [
@@ -47,21 +47,22 @@ exports.blog_update_put = [
     .isLength({ min: 1 })
     .escape(),
   (req, res, next) => {
+    console.log("body=", req.body);
     const blog = new Blog({
       title: req.body.title,
       content: req.body.content,
       _id: req.params.id,
     });
 
-    // console.log("blog", blog);
+    console.log("blog", blog);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.json(errors, blog);
+      return res.status(500).json(errors.array());
     } else {
       Blog.findByIdAndUpdate(req.params.id, blog, {}, (err, theblog) => {
-        if (err) return res.json(err);
+        if (err) return res.status(500).json(err);
         else {
-          return res.json(theblog);
+          return res.status(200).json(theblog);
         }
       });
     }
@@ -69,10 +70,13 @@ exports.blog_update_put = [
 ];
 
 exports.blog_delete = (req, res, next) => {
+  console.log("asasjaksjaksja");
+  console.log(req.params.id);
   Blog.findByIdAndRemove(req.params.id, (err, theblog) => {
-    if (err) return res.json(err);
+    if (err) return res.status(404).json(err);
     else {
-      return res.json(theblog);
+      console.log(theblog);
+      return res.status(200).json(theblog);
     }
   });
 };
@@ -93,7 +97,12 @@ exports.login_post = [
       return res.status(401).json(errors.array());
     } else {
       User.findOne({ username: req.body.username }, (err, result) => {
-        if (err) return res.status(500).json(err);
+        if (err) {
+          console.log(err);
+          console.log(err.message);
+          return res.status(500).json({ msg: err.message });
+        }
+
         if (result == null) {
           return res
             .status(401)

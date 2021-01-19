@@ -1,33 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import uniqid from "uniqid";
+import { UpdateCreateContext } from "./UpdateCreateContext";
+import LoadingOverlay from "./LoadingOverlay";
 
-const BlogForm = ({
-  state,
-  setState,
-  loading,
-  setLoading,
-  errors,
-  setErrors,
-  props,
-  isAuth,
-  BlogCreate,
-}) => {
+const BlogForm = ({ loadUpdateForm, title, url, method }) => {
+  const {
+    stateValue,
+    errorsValue,
+    loading_btnValue,
+    responseFromPostValue,
+    cb,
+  } = useContext(UpdateCreateContext);
+
+  const [state, setState] = stateValue;
+  const [errors, setErrors] = errorsValue;
+  const [loading_btn, setLoading_btn] = loading_btnValue;
+  const [responseFromPost, setResponseFromPost] = responseFromPostValue;
+
   const changeHandler = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
-    console.log(state);
+    // console.log(state);
   };
 
-  const axios_blogCreate = () => {
-    props.axios_blogCreate();
+  const submitForm = () => {
+    cb.submitForm(url, method);
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    setLoading(true);
-    axios_blogCreate();
-    console.log(isAuth);
+    setLoading_btn(true);
+    submitForm();
   };
 
   const displayError = () => {
@@ -45,9 +49,10 @@ const BlogForm = ({
       return null;
     }
   };
-
+  // console.log(responseFromPost);
   return (
     <div className="BlogForm">
+      {loadUpdateForm && <LoadingOverlay />}
       <form>
         <div className="form-group">
           <label htmlFor="title">Title:</label>
@@ -76,10 +81,12 @@ const BlogForm = ({
           type="submit"
           onClick={(e) => submitHandler(e)}
         >
-          {loading ? "Submitting" : "Create Blog"}
+          {loading_btn ? "Submitting" : title}
         </button>
       </form>
-      {isAuth && <Redirect to={`/api/blog/${BlogCreate.data._id}`} />}
+      {responseFromPost && (
+        <Redirect to={`/api/blog/${responseFromPost._id}`} />
+      )}
     </div>
   );
 };

@@ -8,6 +8,7 @@ const CommentSchema = mongoose.Schema({
     ref: "User",
     required: true,
   },
+  blog: { type: mongoose.Schema.Types.ObjectId, ref: "Blog", required: true },
 });
 
 const CommentModel = connection.model("Comment", CommentSchema);

@@ -75,6 +75,7 @@ router.post(
   utils.verifyJWT,
   guestController.comment_create_post
 );
+router.get("/blog/:id/comment", guestController.comment_get);
 
 //delete
 router.delete(

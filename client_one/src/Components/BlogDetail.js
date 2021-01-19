@@ -1,36 +1,88 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import LoadingOverlay from "./LoadingOverlay";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { UpdateCreateContext } from "./UpdateCreateContext";
+import LoadingOverlayComments from "./LoadingOverlayComments";
+import BlogCommentForm from "./BlogCommentForm";
 
 const BlogDetail = ({ props }) => {
-  console.log(props);
-  const [blogDetail, setBlogDetail] = useState("");
-  const [loading, setLoading] = useState(true);
+  const {
+    responseFromGetValue,
+    cb,
+    errorsValue,
+    comment_getValue,
+  } = useContext(UpdateCreateContext);
+  const [responseFromGet] = responseFromGetValue;
+  const [comment_get, setComment_get] = comment_getValue;
+  // const [errors, setErrors] = errorsValue;
+
+  // const []
 
   useEffect(() => {
-    console.log("hihih");
-    axios_blogDetail();
+    get_blog();
+    get_comments();
   }, []);
 
-  const axios_blogDetail = async () => {
-    const response = await axios.get(
-      `http://localhost:3000/api/blog/${props.match.params.id}`
-    );
-    setLoading(false);
-    setBlogDetail(response.data);
+  const get_blog = () => {
+    cb.get_blog(props);
   };
+
+  const get_comments = () => {
+    cb.get_comments(props);
+  };
+
+  const display_comments = () => {
+    let arr = [];
+    for (let i = 0; i < comment_get.length; i++) {
+      arr.push(
+        <div className="comment-detail" key={comment_get[i]._id}>
+          <div className="comment-detail-user">
+            {comment_get[i].user.username}
+          </div>
+          <div className="comment-detail-comment">{comment_get[i].comment}</div>
+        </div>
+      );
+    }
+    return arr;
+  };
+
+  // console.log(comment_get.length);
+  // console.log(responseFromGet);
+  // console.log(errors);
 
   return (
     <div className="BlogDetail">
-      {loading && <LoadingOverlay />}
-      <Link to={`/api/blog/${blogDetail._id}/update`}>
-        <div className="update-btn">Update</div>
-      </Link>
-      <div className="card">
-        <div className="card-title">{blogDetail.title}</div>
-        <div className="card-content">{blogDetail.content}</div>
-      </div>
+      {!responseFromGet && <LoadingOverlay />}
+      {responseFromGet && (
+        <>
+          <div className="card">
+            <div className="card-title">{responseFromGet.title}</div>
+            <div className="card-content">{responseFromGet.content}</div>
+
+            <Link
+              className="update-btn"
+              to={`/api/blog/${responseFromGet._id}/update`}
+            >
+              Update
+            </Link>
+            <Link
+              className="delete-btn"
+              to={`/api/blog/${responseFromGet._id}/delete`}
+            >
+              Delete
+            </Link>
+          </div>
+          <>
+            <BlogCommentForm props={props} />
+          </>
+          <>
+            {comment_get.length > 0 && (
+              <div className="comments">{display_comments()}</div>
+            )}
+          </>
+        </>
+      )}
     </div>
   );
 };

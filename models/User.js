@@ -10,6 +10,10 @@ const UserSchema = mongoose.Schema({
   password: { type: String, required: true },
 });
 
+UserSchema.virtual("name").get(function () {
+  return this.fname + this.lname;
+});
+
 const UserModel = connection.model("User", UserSchema);
 
 module.exports = UserModel;
