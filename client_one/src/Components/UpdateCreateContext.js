@@ -66,12 +66,11 @@ export const UpdateCreateProvider = ({ children }) => {
     }
   };
 
-  const get_blog = async (props) => {
-    console.log(props);
+  //not hard coding get blog GET because it is used for blo_list and blog_detail
+  const get_blog = async (url, method) => {
+    // console.log();
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/blog/${props.match.params.id}`
-      );
+      const response = await axios({ method: method, url: url });
       console.log(response);
       setResponseFromGet(response.data);
     } catch (err) {

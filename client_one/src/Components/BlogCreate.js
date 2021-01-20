@@ -14,8 +14,10 @@ const BlogCreate = () => {
   useEffect(() => {
     setState({ title: "", content: "" });
   }, []);
+
   const url = "http://localhost:3000/api/blogs";
   const method = "POST";
+
   return (
     <div className="BlogCreate">
       <BlogForm title={"Create Blog"} url={url} method={method} />

@@ -12,6 +12,8 @@ const BlogDetail = ({ props }) => {
     UpdateCreateContext
   );
 
+  console.log(props);
+
   const [responseFromGet] = responseFromGetValue;
   const [tempComment, setTempComment] = useState([]);
   const [comment_get, setComment_get] = comment_getValue;
@@ -23,7 +25,10 @@ const BlogDetail = ({ props }) => {
 
   const get_blog_and_comments = () => {
     cb.get_comments(props);
-    cb.get_blog(props);
+
+    const url = `http://localhost:3000/api/blog/${props.match.params.id}`;
+    const method = "GET";
+    cb.get_blog(url, method);
   };
 
   useEffect(() => {

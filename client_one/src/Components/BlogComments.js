@@ -1,24 +1,24 @@
 import React from "react";
 import uniqid from "uniqid";
+import BlogDisplayComments from "./BlogDisplayComments";
 
 const BlogComments = ({ props, tempComment, setTempComment }) => {
-  const display_Comments = () => {
-    let arr = [];
-
-    for (let i = 0; i < tempComment.length; i++) {
-      let x = (
-        <div key={uniqid()}>
-          <div className="user-name">{tempComment[i].user.name}</div>
-          <div className="comment">{tempComment[i].comment}</div>
-          <div className="dlt-comment-btn">Delete</div>
-        </div>
-      );
-      arr.push(x);
-    }
-    return arr;
-  };
-
-  return <div className="BlogComment">{display_Comments()}</div>;
+  return (
+    <div className="BlogComment">
+      {tempComment.map((value, index) => {
+        return (
+          <BlogDisplayComments
+            key={uniqid()}
+            comment={value}
+            tempComment={tempComment}
+            setTempComment={setTempComment}
+            index={index}
+            props={props}
+          />
+        );
+      })}
+    </div>
+  );
 };
 
 export default BlogComments;

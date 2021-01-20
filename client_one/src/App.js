@@ -15,11 +15,10 @@ function App() {
       <Router>
         <Navigation />
         <Switch>
-          <Route exact path="/api/blogs" render={() => <Home />} />
-
           <Route exact path="/api/blogs/login" render={() => <Login />} />
 
           <UpdateCreateProvider>
+            <Route exact path="/api/blogs" render={() => <Home />} />
             <Route
               exact
               path="/api/blogs/create"
