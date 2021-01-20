@@ -8,16 +8,27 @@ import BlogCommentForm from "./BlogCommentForm";
 import BlogComments from "./BlogComments";
 
 const BlogDetail = ({ props }) => {
-  const { responseFromGetValue, cb } = useContext(UpdateCreateContext);
+  const { responseFromGetValue, comment_getValue, cb } = useContext(
+    UpdateCreateContext
+  );
+
   const [responseFromGet] = responseFromGetValue;
+  const [tempComment, setTempComment] = useState([]);
+  const [comment_get, setComment_get] = comment_getValue;
 
   useEffect(() => {
-    get_blog();
+    //use aysnc parallel here later
+    get_blog_and_comments();
   }, []);
 
-  const get_blog = () => {
+  const get_blog_and_comments = () => {
+    cb.get_comments(props);
     cb.get_blog(props);
   };
+
+  useEffect(() => {
+    setTempComment([...comment_get]);
+  }, [comment_get]);
 
   return (
     <div className="BlogDetail">
@@ -42,10 +53,18 @@ const BlogDetail = ({ props }) => {
             </Link>
           </div>
           <>
-            <BlogCommentForm props={props} />
+            <BlogCommentForm
+              props={props}
+              tempComment={tempComment}
+              setTempComment={setTempComment}
+            />
           </>
           <>
-            <BlogComments props={props} />
+            <BlogComments
+              props={props}
+              tempComment={tempComment}
+              setTempComment={setTempComment}
+            />
           </>
         </>
       )}

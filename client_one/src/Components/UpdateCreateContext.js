@@ -110,7 +110,7 @@ export const UpdateCreateProvider = ({ children }) => {
 
         setCommentErrors([]);
         setComment_post(response.data);
-        // console.log(comment_post);
+        console.log(comment_post);
       } catch (err) {
         setCommentErrors(err.response.data);
         setComment_post(false); //setting comment false so we can know that the user is not authenticated

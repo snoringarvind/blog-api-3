@@ -9,7 +9,7 @@ try {
     useUnifiedTopology: true,
   });
 } catch (err) {
-  console.log(err);
+  console.log("errors", err);
 }
 
 module.exports = connection;

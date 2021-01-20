@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UpdateCreateContext } from "./UpdateCreateContext";
 import { Redirect } from "react-router-dom";
 
-const BlogCommentForm = ({ props }) => {
+const BlogCommentForm = ({ props, tempComment, setTempComment }) => {
   const { commentStateValue, comment_postValue, cb } = useContext(
     UpdateCreateContext
   );
@@ -10,16 +10,34 @@ const BlogCommentForm = ({ props }) => {
   const [commentState, setCommentState] = commentStateValue;
   const [comment_post, setComment_post] = comment_postValue;
 
+  const [didComponentMount, setDidComponentMount] = useState(false);
+
   const changeHandler = (e) => {
     const { name, value } = e.target;
-    // console.log(commentState);
     setCommentState({ ...commentState, [name]: value });
   };
 
-  const submitHandler = () => {
+  const submitHandler = (e) => {
+    e.preventDefault();
     cb.post_comment(props);
   };
 
+  useEffect(() => {
+    console.log(comment_post);
+    setDidComponentMount(true);
+  }, []);
+
+  const y = () => {
+    if (didComponentMount) {
+      console.log(comment_post);
+      setTempComment([...tempComment, comment_post]);
+    }
+  };
+
+  useEffect(() => {
+    y();
+  }, [comment_post]);
+  // console.log(tempComment);
   return (
     <div className="BlogCommentForm">
       <form>
@@ -35,7 +53,7 @@ const BlogCommentForm = ({ props }) => {
           Add Comment
         </button>
       </form>
-      {comment_post && <Redirect to={`/api/blog/${props.match.params.id}`} />}
+      {/* {comment_post && <Redirect to={`/api/blog/${props.match.params.id}`} />} */}
     </div>
   );
 };
