@@ -73,18 +73,18 @@ exports.blog_update_put = [
 exports.blog_delete = (req, res, next) => {
   console.log("asasjaksjaksja");
   console.log(req.params.id);
-  // let arr = [];
+  let arr = [];
   Blog.findByIdAndRemove(req.params.id, (err, theblog) => {
     if (err) return res.status(404).json(err);
     Comment.find({ blog: req.params.id }, (err2, comments) => {
       if (err2) return res.status(404).json({ msg: err2 });
       for (let i = 0; i < comments.length; i++) {
-        // arr.push(comments[i]);
         Comment.findByIdAndRemove(comments[i]._id, {}, (err3, thecomment) => {
+          arr.push(comments[i]);
           if (err3) return res.status(404).json(err3);
         });
       }
-      res.status(200).json("deleted comments and blog");
+      res.status(200).json({ theblog: theblog, thecomments: arr });
     });
   });
 };
@@ -149,8 +149,8 @@ exports.isVerified = (req, res, next) => {
 };
 
 exports.comment_delete = (req, res, next) => {
-  Comment.findByIdAndRemove(req.params.commentid, (err) => {
+  Comment.findByIdAndRemove(req.params.commentid, (err, thecomment) => {
     if (err) return res.status(500).json({ msg: err.message });
-    return res.status(200).json({ msg: "comment deleted" });
+    return res.status(200).json(thecomment);
   });
 };

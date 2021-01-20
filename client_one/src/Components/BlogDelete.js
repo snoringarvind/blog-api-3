@@ -13,12 +13,15 @@ const BlogDelete = ({ props }) => {
   // const [responseFromPost, setResponseFromPost] = responseFromPostValue;
 
   const [responseFromGet] = responseFromGetValue;
+  const [responseFromPost, setResponseFromPost] = responseFromPostValue;
 
   const [cancelState, setCancelState] = useState(false);
   const [deleteState, setDeletestate] = useState(false);
+  const [tempDelete, setTempDelete] = useState("");
 
   useEffect(() => {
     get_blog();
+    setResponseFromPost(null);
   }, []);
 
   const get_blog = () => {
@@ -26,6 +29,12 @@ const BlogDelete = ({ props }) => {
     const method = "GET";
     cb.get_blog(url, method);
   };
+
+  useEffect(() => {
+    setTempDelete(responseFromGet);
+  }, [responseFromGet]);
+
+  console.log(tempDelete);
 
   const deleteHandler = (e) => {
     // e.preventDefault();
@@ -39,16 +48,17 @@ const BlogDelete = ({ props }) => {
   return (
     <div className="BlogDelete">
       <>
-        {!responseFromGet && <LoadingOverlay />}
-        {responseFromGet && (
+        {!tempDelete && <LoadingOverlay />}
+        {tempDelete && (
           <>
             <div>Are you sure you want to delete this blog</div>
-            <div>{responseFromGet.title}</div>
-            <div>{responseFromGet.content}</div>
+            <div>{tempDelete.title}</div>
+            <div>{tempDelete.content}</div>
             <div>
               <button className="delete-btn" onClick={deleteHandler}>
-                {deleteState ? <BlogDeleteYes cb={cb} props={props} /> : "Yes"}
+                Yes
               </button>
+              {deleteState && <BlogDeleteYes props={props} />}
               <button className="cancel-btn" onClick={cancelDelete}>
                 {cancelState ? <Redirect to="/api/blogs" /> : "No"}
               </button>

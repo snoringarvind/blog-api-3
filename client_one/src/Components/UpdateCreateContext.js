@@ -46,7 +46,7 @@ export const UpdateCreateProvider = ({ children }) => {
           data: state,
           headers: headers,
         });
-        // console.log(response);
+        console.log(response);
         setLoading_btn(false);
         setErrors([]);
         setResponseFromPost(response.data);

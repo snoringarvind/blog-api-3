@@ -32,16 +32,18 @@ const Home = () => {
   const displayBlogs = () => {
     const arr = [];
     let blog;
-    for (let i = 0; i < responseFromGet.length; i++) {
-      blog = (
-        <div className="card" key={uniqid()}>
-          <Link to={`/api/blog/${responseFromGet[i]._id}`} className="Link">
-            <div className="card-title">{responseFromGet[i].title}</div>
-            <div className="card-content">{responseFromGet[i].content}</div>
-          </Link>
-        </div>
-      );
-      arr.push(blog);
+    if (responseFromGet.length > 0) {
+      for (let i = 0; i < responseFromGet.length; i++) {
+        blog = (
+          <div className="card" key={uniqid()}>
+            <Link to={`/api/blog/${responseFromGet[i]._id}`} className="Link">
+              <div className="card-title">{responseFromGet[i].title}</div>
+              <div className="card-content">{responseFromGet[i].content}</div>
+            </Link>
+          </div>
+        );
+        arr.push(blog);
+      }
     }
     return arr;
   };
