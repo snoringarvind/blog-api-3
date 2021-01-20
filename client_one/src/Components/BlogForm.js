@@ -10,6 +10,7 @@ const BlogForm = ({ loadUpdateForm, title, url, method }) => {
     errorsValue,
     loading_btnValue,
     responseFromPostValue,
+    responseFromGetValue,
     cb,
   } = useContext(UpdateCreateContext);
 
@@ -17,6 +18,9 @@ const BlogForm = ({ loadUpdateForm, title, url, method }) => {
   const [errors, setErrors] = errorsValue;
   const [loading_btn, setLoading_btn] = loading_btnValue;
   const [responseFromPost, setResponseFromPost] = responseFromPostValue;
+
+  //to prepopilate the update fields
+  const [responseFromGet, setResponseFromGet] = responseFromGetValue;
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
@@ -53,6 +57,7 @@ const BlogForm = ({ loadUpdateForm, title, url, method }) => {
   return (
     <div className="BlogForm">
       {loadUpdateForm && <LoadingOverlay />}
+
       <form>
         <div className="form-group">
           <label htmlFor="title">Title:</label>

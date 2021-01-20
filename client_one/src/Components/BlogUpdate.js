@@ -30,7 +30,8 @@ const BlogUpdate = ({ props }) => {
 
   useEffect(() => {
     if (didComponentMount) {
-      loadUpdateForm(false);
+      setLoadUpdateForm(false);
+      setState(responseFromGet);
     }
   }, [responseFromGet]);
 

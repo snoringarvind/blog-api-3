@@ -19,16 +19,16 @@ function App() {
 
           <UpdateCreateProvider>
             <Route exact path="/api/blogs" render={() => <Home />} />
-            <Route
-              exact
-              path="/api/blogs/create"
-              render={(props) => <BlogCreate props={props} />}
-            />
 
             <Route
               exact
               path="/api/blog/:id"
               render={(props) => <BlogDetail props={props} />}
+            />
+            <Route
+              exact
+              path="/api/blogs/create"
+              render={(props) => <BlogCreate props={props} />}
             />
 
             <Route

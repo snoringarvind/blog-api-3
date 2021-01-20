@@ -34,11 +34,11 @@ export const UpdateCreateProvider = ({ children }) => {
         authorization: `Bearer ${jwtData.jwt.token}`,
       };
 
-      console.log(jwtData);
-      console.log(state);
-      console.log(url);
-      console.log(method);
-      console.log(headers);
+      // console.log(jwtData);
+      // console.log(state);
+      // console.log(url);
+      // console.log(method);
+      // console.log(headers);
       try {
         const response = await axios({
           method: method,
@@ -46,7 +46,7 @@ export const UpdateCreateProvider = ({ children }) => {
           data: state,
           headers: headers,
         });
-        console.log(response);
+        // console.log(response);
         setLoading_btn(false);
         setErrors([]);
         setResponseFromPost(response.data);
@@ -71,7 +71,7 @@ export const UpdateCreateProvider = ({ children }) => {
     // console.log();
     try {
       const response = await axios({ method: method, url: url });
-      console.log(response);
+      // console.log(response);
       setResponseFromGet(response.data);
     } catch (err) {
       console.log("err=", err.message);

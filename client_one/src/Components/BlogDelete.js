@@ -22,7 +22,9 @@ const BlogDelete = ({ props }) => {
   }, []);
 
   const get_blog = () => {
-    cb.get_blog(props);
+    const url = `http://localhost:3000/api/blog/${props.match.params.id}`;
+    const method = "GET";
+    cb.get_blog(url, method);
   };
 
   const deleteHandler = (e) => {

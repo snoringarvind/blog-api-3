@@ -31,6 +31,7 @@ const BlogDetail = ({ props }) => {
     cb.get_blog(url, method);
   };
 
+  console.log(tempComment);
   useEffect(() => {
     setTempComment([...comment_get]);
   }, [comment_get]);
