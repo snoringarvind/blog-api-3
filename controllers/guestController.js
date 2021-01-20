@@ -77,15 +77,15 @@ exports.comment_create_post = [
     .escape(),
   body("user").trim().escape(),
   (req, res, next) => {
-    console.log("user=", res.locals.user.sub);
+    // console.log("user=", res.locals.user.sub);
     const errors = validationResult(req);
     const comment = new Comment({
       comment: req.body.comment,
       user: res.locals.user.sub,
       blog: req.params.id,
     });
-    console.log(("comment=", comment));
-    console.log(errors.array());
+    // console.log(("comment=", comment));
+    // console.log(errors.array());
     if (!errors.isEmpty()) {
       res.status(400).json(errors.array());
     } else {

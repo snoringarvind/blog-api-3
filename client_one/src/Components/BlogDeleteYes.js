@@ -8,12 +8,15 @@ const BlogDeleteYes = ({ props }) => {
   const method = "DELETE";
 
   const [redirect, setRedirect] = useState(false);
-  const { cb, responseFromPostValue } = useContext(UpdateCreateContext);
-  // const [responseFromGet, setResponseFromGet] = responseFromGetValue;
+  const { cb, responseFromPostValue, responseFromGetValue } = useContext(
+    UpdateCreateContext
+  );
+  const [responseFromGet, setResponseFromGet] = responseFromGetValue;
   const [responseFromPost, setResponseFromPost] = responseFromPostValue;
 
   useEffect(() => {
     // console.log(responseFromPost);
+    // setResponseFromGet(null);
     cb.submitForm(url, method);
   }, []);
 
@@ -23,8 +26,13 @@ const BlogDeleteYes = ({ props }) => {
     }
   }, [responseFromPost]);
 
-  console.log(redirect);
-  return <div>{redirect && <Redirect to="/api/blogs" />}</div>;
+  // console.log(redirect);
+  return (
+    <>
+      {!redirect && <LoadingOverlay />}
+      {redirect && <Redirect to="/api/blogs" />}
+    </>
+  );
 };
 
 export default BlogDeleteYes;

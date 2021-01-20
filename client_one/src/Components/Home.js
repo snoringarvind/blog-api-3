@@ -43,11 +43,12 @@ const Home = () => {
           </div>
         );
         arr.push(blog);
+        // setResponseFromGet(null);
       }
     }
     return arr;
   };
-  console.log(responseFromGet);
+  // console.log(responseFromGet);
   return (
     <div className="Home">
       {loading && <LoadingOverlay />}

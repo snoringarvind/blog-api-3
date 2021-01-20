@@ -11,7 +11,7 @@ exports.blog_create_post = [
     .isLength({ min: 1 })
     .escape(),
   (req, res, next) => {
-    console.log("okay", req.body);
+    // console.log("okay", req.body);
     const errors = validationResult(req);
 
     const blog = new Blog({
@@ -24,9 +24,9 @@ exports.blog_create_post = [
       res.status(400).json(errors.array());
     } else {
       blog.save((err) => {
-        console.log(blog.url);
+        // console.log(blog.url);
         if (err) return res.status(500).json(err);
-        console.log("blog_url", blog.url);
+        // console.log("blog_url", blog.url);
         res.status(200).json(blog);
       });
     }
@@ -48,7 +48,7 @@ exports.blog_update_put = [
     .isLength({ min: 1 })
     .escape(),
   (req, res, next) => {
-    console.log("body=", req.body);
+    // console.log("body=", req.body);
     const blog = new Blog({
       title: req.body.title,
       content: req.body.content,
@@ -71,8 +71,8 @@ exports.blog_update_put = [
 ];
 
 exports.blog_delete = (req, res, next) => {
-  console.log("asasjaksjaksja");
-  console.log(req.params.id);
+  // console.log("asasjaksjaksja");
+  // console.log(req.params.id);
   let arr = [];
   Blog.findByIdAndRemove(req.params.id, (err, theblog) => {
     if (err) return res.status(404).json(err);
@@ -106,8 +106,8 @@ exports.login_post = [
     } else {
       User.findOne({ username: req.body.username }, (err, result) => {
         if (err) {
-          console.log(err);
-          console.log(err.message);
+          // console.log(err);
+          err.message;
           return res.status(500).json({ msg: err.message });
         }
 

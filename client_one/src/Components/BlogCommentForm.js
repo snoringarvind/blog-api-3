@@ -23,13 +23,13 @@ const BlogCommentForm = ({ props, tempComment, setTempComment }) => {
   };
 
   useEffect(() => {
-    console.log(comment_post);
+    // console.log(comment_post);
     setDidComponentMount(true);
   }, []);
 
   const y = () => {
     if (didComponentMount) {
-      console.log(comment_post);
+      // console.log(comment_post);
       setTempComment([...tempComment, comment_post]);
     }
   };

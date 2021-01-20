@@ -46,7 +46,7 @@ export const UpdateCreateProvider = ({ children }) => {
           data: state,
           headers: headers,
         });
-        console.log(response);
+        // console.log(response);
         setLoading_btn(false);
         setErrors([]);
         setResponseFromPost(response.data);
@@ -95,7 +95,7 @@ export const UpdateCreateProvider = ({ children }) => {
 
   const post_comment = async (props) => {
     const jwtData = ifJwtData();
-    console.log(jwtData);
+    // console.log(jwtData);
     if (jwtData) {
       const headers = { authorization: `Bearer ${jwtData.jwt.token}` };
       try {
@@ -105,11 +105,11 @@ export const UpdateCreateProvider = ({ children }) => {
           data: commentState,
           headers: headers,
         });
-        console.log(response);
+        // console.log(response);
 
         setCommentErrors([]);
         setComment_post(response.data);
-        console.log(comment_post);
+        // console.log(comment_post);
       } catch (err) {
         setCommentErrors(err.response.data);
         setComment_post(false); //setting comment false so we can know that the user is not authenticated

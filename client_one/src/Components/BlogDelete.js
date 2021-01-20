@@ -34,7 +34,7 @@ const BlogDelete = ({ props }) => {
     setTempDelete(responseFromGet);
   }, [responseFromGet]);
 
-  console.log(tempDelete);
+  // console.log(tempDelete);
 
   const deleteHandler = (e) => {
     // e.preventDefault();

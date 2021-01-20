@@ -19,15 +19,11 @@ function App() {
 
           <UpdateCreateProvider>
             <Route exact path="/api/blogs" render={() => <Home />} />
+
             <Route
               exact
               path="/api/blogs/create"
               render={(props) => <BlogCreate props={props} />}
-            />
-            <Route
-              exact
-              path="/api/blog/:id"
-              render={(props) => <BlogDetail props={props} />}
             />
 
             <Route
@@ -40,6 +36,12 @@ function App() {
               exact
               path="/api/blog/:id/delete"
               render={(props) => <BlogDelete props={props} />}
+            />
+
+            <Route
+              exact
+              path="/api/blog/:id"
+              render={(props) => <BlogDetail props={props} />}
             />
           </UpdateCreateProvider>
         </Switch>

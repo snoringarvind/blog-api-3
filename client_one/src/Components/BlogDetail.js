@@ -12,66 +12,91 @@ const BlogDetail = ({ props }) => {
     UpdateCreateContext
   );
 
-  console.log(props);
+  // console.log(props);
 
-  const [responseFromGet] = responseFromGetValue;
+  const [responseFromGet, setResponseFromGet] = responseFromGetValue;
   const [tempComment, setTempComment] = useState([]);
   const [comment_get, setComment_get] = comment_getValue;
+  const [currentLink, setCurrentLink] = useState("");
+  const [componenetMount, setComponentMount] = useState(false);
 
   useEffect(() => {
     //use aysnc parallel here later
-    get_blog_and_comments();
+    get_blog();
+    setResponseFromGet(null);
   }, []);
 
-  const get_blog_and_comments = () => {
-    cb.get_comments(props);
+  useEffect(() => {
+    get_comments();
+  }, []);
 
+  const get_comments = () => {
+    cb.get_comments(props);
+  };
+
+  const get_blog = () => {
     const url = `http://localhost:3000/api/blog/${props.match.params.id}`;
     const method = "GET";
     cb.get_blog(url, method);
+    setting_responseFromGet();
   };
 
-  console.log(tempComment);
+  const setting_responseFromGet = () => {
+    if (responseFromGet !== null) {
+      console.log(responseFromGet.length);
+      setComponentMount(true);
+      console.log(componenetMount);
+    }
+  };
+
+  if (componenetMount) {
+    console.log(responseFromGet);
+  }
+  // console.log(tempComment);
   useEffect(() => {
     setTempComment([...comment_get]);
   }, [comment_get]);
 
   return (
     <div className="BlogDetail">
-      {!responseFromGet && <LoadingOverlay />}
-      {responseFromGet && (
+      {!componenetMount && <LoadingOverlay />}
+      {componenetMount && (
         <>
-          <div className="card">
-            <div className="card-title">{responseFromGet.title}</div>
-            <div className="card-content">{responseFromGet.content}</div>
+          {responseFromGet && (
+            <>
+              <div className="card">
+                <div className="card-title">{responseFromGet.title}</div>
+                <div className="card-content">{responseFromGet.content}</div>
 
-            <Link
-              className="update-btn"
-              to={`/api/blog/${responseFromGet._id}/update`}
-            >
-              Update
-            </Link>
-            <Link
-              className="delete-btn"
-              to={`/api/blog/${responseFromGet._id}/delete`}
-            >
-              Delete
-            </Link>
-          </div>
-          <>
-            <BlogCommentForm
-              props={props}
-              tempComment={tempComment}
-              setTempComment={setTempComment}
-            />
-          </>
-          <>
-            <BlogComments
-              props={props}
-              tempComment={tempComment}
-              setTempComment={setTempComment}
-            />
-          </>
+                <Link
+                  className="update-btn"
+                  to={`/api/blog/${responseFromGet._id}/update`}
+                >
+                  Update
+                </Link>
+                <Link
+                  className="delete-btn"
+                  to={`/api/blog/${responseFromGet._id}/delete`}
+                >
+                  Delete
+                </Link>
+              </div>
+              <>
+                <BlogCommentForm
+                  props={props}
+                  tempComment={tempComment}
+                  setTempComment={setTempComment}
+                />
+              </>
+              <>
+                <BlogComments
+                  props={props}
+                  tempComment={tempComment}
+                  setTempComment={setTempComment}
+                />
+              </>
+            </>
+          )}
         </>
       )}
     </div>

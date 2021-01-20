@@ -17,7 +17,7 @@ const BlogDisplayComments = ({
     cb.submitForm(url, method);
     tempComment[index] = "";
     setTempComment(tempComment);
-    console.log(comment.id);
+    // console.log(comment.id);
   };
   return (
     <>
