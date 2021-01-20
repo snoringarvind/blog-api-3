@@ -77,12 +77,20 @@ router.post(
 );
 router.get("/blog/:id/comment", guestController.comment_get);
 
-//delete
+//delete blog
 router.delete(
   "/blog/:id",
   utils.verifyJWT,
   utils.verifyAdmin,
   adminController.blog_delete
+);
+
+//delete comment
+router.delete(
+  "/blog/:id/comment/:commentid",
+  utils.verifyJWT,
+  utils.verifyAdmin,
+  adminController.comment_delete
 );
 
 //get detail

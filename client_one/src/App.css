@@ -46,6 +46,7 @@ textarea {
   padding: 20px;
 }
 
+.comment-btn,
 .submit-btn,
 .delete-btn,
 .cancel-btn,
@@ -60,6 +61,7 @@ textarea {
   cursor: pointer;
 }
 
+.comment-btn,
 .update-btn,
 .delete-btn,
 .cancel-btn {

@@ -49,7 +49,7 @@ const BlogForm = ({ loadUpdateForm, title, url, method }) => {
       return null;
     }
   };
-  console.log(responseFromPost);
+  // console.log(responseFromPost);
   return (
     <div className="BlogForm">
       {loadUpdateForm && <LoadingOverlay />}

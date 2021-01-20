@@ -1,10 +1,14 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { UpdateCreateContext } from "./UpdateCreateContext";
+import BlogDisplayComments from "./BlogDisplayComments";
+// import { comment_get } from "../../../controllers/guestController";
+import uniqid from "uniqid";
 
 const BlogComments = ({ props }) => {
   const { cb, comment_getValue } = useContext(UpdateCreateContext);
 
   const [comment_get, setComment_get] = comment_getValue;
+
   useEffect(() => {
     get_comments();
   }, []);
@@ -12,29 +16,27 @@ const BlogComments = ({ props }) => {
   const get_comments = () => {
     cb.get_comments(props);
   };
+  console.log(comment_get);
 
-  const display_comments = () => {
-    let arr = [];
-
-    for (let i = 0; i < comment_get.length; i++) {
-      arr.push(
-        <div className="comment-detail" key={comment_get[i]._id}>
-          <div className="comment-detail-user">
-            {comment_get[i].user.username}
-          </div>
-          <div className="comment-detail-comment">{comment_get[i].comment}</div>
-        </div>
-      );
-    }
-    return arr;
-  };
   return (
     <div className="BlogComments">
-      <>
-        {comment_get.length > 0 && (
-          <div className="comments">{display_comments()}</div>
-        )}
-      </>
+      {comment_get != null && (
+        <>
+          {comment_get.map((value, index) => {
+            return (
+              <BlogDisplayComments
+                comment={value}
+                key={uniqid()}
+                cb={cb}
+                index={index}
+                props={props}
+                comments={comment_get}
+                setComment_get={setComment_get}
+              />
+            );
+          })}
+        </>
+      )}
     </div>
   );
 };

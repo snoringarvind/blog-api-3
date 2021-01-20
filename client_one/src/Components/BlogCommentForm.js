@@ -23,20 +23,17 @@ const BlogCommentForm = ({ props }) => {
   return (
     <div className="BlogCommentForm">
       <form>
-        <div className="form-group">
-          <label htmlFor="comment">Comment:</label>
-          <input
-            id="comment"
-            type="text"
-            name="comment"
-            onChange={(e) => changeHandler(e)}
-          />
-        </div>
-        <div className="form-group">
-          <button type="submit" onClick={submitHandler}>
-            Add Comment
-          </button>
-        </div>
+        <label htmlFor="comment">Comment:</label>
+        <textarea
+          id="comment"
+          type="text"
+          name="comment"
+          onChange={(e) => changeHandler(e)}
+          value={commentState.comment}
+        />
+        <button className="comment-btn" onClick={submitHandler}>
+          Add Comment
+        </button>
       </form>
       {comment_post && <Redirect to={`/api/blog/${props.match.params.id}`} />}
     </div>
