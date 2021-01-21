@@ -12,16 +12,18 @@ const BlogDelete = ({ props }) => {
 
   // const [responseFromPost, setResponseFromPost] = responseFromPostValue;
 
-  const [responseFromGet] = responseFromGetValue;
+  const [responseFromGet, setResponseFromGet] = responseFromGetValue;
   const [responseFromPost, setResponseFromPost] = responseFromPostValue;
 
   const [cancelState, setCancelState] = useState(false);
   const [deleteState, setDeletestate] = useState(false);
-  const [tempDelete, setTempDelete] = useState("");
+  const [tempDelete, setTempDelete] = useState(null);
+  const [didmount, setDidMount] = useState(false);
 
   useEffect(() => {
     get_blog();
     setResponseFromPost(null);
+    setDidMount(true);
   }, []);
 
   const get_blog = () => {
@@ -31,8 +33,16 @@ const BlogDelete = ({ props }) => {
   };
 
   useEffect(() => {
-    setTempDelete(responseFromGet);
+    if (responseFromGet != null) {
+      setTempDelete(responseFromGet);
+    }
   }, [responseFromGet]);
+
+  useEffect(() => {
+    if (tempDelete != null) {
+      setResponseFromGet(null);
+    }
+  }, [tempDelete]);
 
   // console.log(tempDelete);
 

@@ -12,7 +12,7 @@ const BlogUpdate = ({ props }) => {
   const [didComponentMount, setDidComponenetMount] = useState(false);
   const [responseFromGet, setResponseFromGet] = responseFromGetValue;
 
-  console.log("jiiiiiiiiiiiiiiiiiiiiiiii");
+  console.log(responseFromGet);
 
   const [loadUpdateForm, setLoadUpdateForm] = useState(true);
 

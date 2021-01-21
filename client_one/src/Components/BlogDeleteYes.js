@@ -15,7 +15,8 @@ const BlogDeleteYes = ({ props }) => {
   const [responseFromPost, setResponseFromPost] = responseFromPostValue;
 
   useEffect(() => {
-    // console.log(responseFromPost);
+    console.log(responseFromPost);
+    console.log(responseFromGet);
     // setResponseFromGet(null);
     cb.submitForm(url, method);
   }, []);

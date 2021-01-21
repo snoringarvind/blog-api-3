@@ -19,6 +19,7 @@ export const UpdateCreateProvider = ({ children }) => {
   const [comment_post, setComment_post] = useState(null);
   const [commentErrors, setCommentErrors] = useState([]);
 
+  // console.log(responseFromGet);
   const ifJwtData = () => {
     const jwtData = JSON.parse(localStorage.getItem("jwtData"));
     setJwtData(jwtData);
